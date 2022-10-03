@@ -1,7 +1,21 @@
-
 <%- include('templates/header')-%>
 
-<h1><%= title %></h1>
-<p>Welcome to <%= title %></p>
+<h1>Selamat Datang di <%= title %></h1>
+<p>Berita Terkini</p>
+
+<div class="card-group">
+  <%beritas.forEach(function(berita) {%>
+  <div class="card">
+    <img class="card-img-top" src=".../100px180/" alt="Card image cap">
+    <div class="card-body">
+      <h5 class="card-title"><%= berita.title %></h5>
+      <p class="card-text"><%= berita.content %></p>
+    </div>
+    <div class="card-footer">
+      <small class="text-muted">Last updated 3 mins ago</small>
+    </div>
+  </div>
+  <%});%>
+</div>
 
 <%- include('templates/footer')-%>
