@@ -44,10 +44,58 @@ router.post('/tambah', upload.single('image'), function (req, res, next) {
     }
 });
 
-// Get Detail Sebuah Berita
+// Read (Get Detail) Sebuah Berita
 // GET
 router.get('/detail/:id', function (req, res, next) {
-    res.render('detailberita', { title: 'Detail Berita' });
+    var id = parseInt(req.params.id);
+
+    Berita.findByPk(id)
+    .then(data => {
+        if (data) {
+        res.render('detailberita', {
+            title: 'Detail Berita',
+            berita: data
+        });
+        } else {
+        // kalau data tidak ada send 404
+        res.status(404).send({
+            message: "Tidak ada berita dengan id= " + id
+        })
+        }
+    })
+    .catch(err => {
+        res.json({
+        info: "Error",
+        message: err.message
+        });
+    });
+});
+
+// Update (Edit) Sebuah Berita
+// GET
+router.get('/ubah/:id', function (req, res, next) {
+    var id = parseInt(req.params.id);
+
+    Berita.findByPk(id)
+    .then(data => {
+        if (data) {
+            res.render('formubahberita', { 
+                title: 'Ubah Berita',
+                berita: data
+         });
+        } else {
+        // kalau data tidak ada send 404
+        res.status(404).send({
+            message: "Tidak ada berita dengan id= " + id
+        })
+        }
+    })
+    .catch(err => {
+        res.json({
+        info: "Error",
+        message: err.message
+        });
+    });
 });
 
 module.exports = router;

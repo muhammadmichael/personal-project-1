@@ -6,7 +6,7 @@
 <div class="card-group">
   <%beritas.forEach(function(berita) {%>
   <div class="card">
-    <img class="card-img-top" src="public/images/uploadedimages/<%=berita.image%>" alt="Card image cap">
+    <img class="card-img-top" src="/public/images/uploadedimages/<%=berita.image%>" alt="Card image cap">
     <div class="card-body">
       <h5><a href="/berita/detail/<%=berita.id%>" class="card-title"><%= berita.title %></a></h5>
       <p class="card-text"><%= berita.content %></p>

@@ -1,4 +1,20 @@
 <%- include('templates/header')-%>
 
-    
+<div class="card mb-3">
+    <img class="card-img-top" src="/public/images/uploadedimages/<%=berita.image%>" alt="Card image cap">
+    <div class="card-body">
+      <h5 class="card-title"><%= berita.title %></h5>
+      <p class="card-text"><%= berita.content %></p>
+      <p class="card-text"><small class="text-muted">Last updated <%= berita.updatedAt.toString().substring(0,24) %></small></p>
+    </div>
+</div>
+
+<div>
+    <a href="/" class="btn btn-primary">Back</a>
+    &nbsp;
+    <a href="/berita/ubah/<%= berita.id %>" class="btn btn-outline-primary">Ubah</a>
+    &nbsp;
+    <a href="/berita/hapus/<%= berita.id %>" class="btn btn-danger">Hapus</a>
+</div>
+
 <%- include('templates/footer')-%>
