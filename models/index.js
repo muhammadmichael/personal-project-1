@@ -23,7 +23,13 @@ db.komentars = require('./komentar')(sequelize, Sequelize);
 db.users = require('./user')(sequelize, Sequelize);
 
 // Associations One-To-Many
-db.beritas.hasMany(db.komentars);
-db.komentars.belongsTo(db.beritas);
+// db.beritas.hasMany(db.komentars);
+// db.komentars.belongsTo(db.beritas);
+
+db.beritas.hasMany(db.komentars, { as: "komentars" });
+db.komentars.belongsTo(db.beritas, {
+  foreignKey: "beritaId",
+  as: "berita",
+});
 
 module.exports = db;

@@ -3,6 +3,9 @@ module.exports = (sequelize, Sequelize) => {
         text: {
             type: Sequelize.STRING
         },
+        beritaId: {
+            type: Sequelize.INTEGER
+        }
     });
 
     return Komentar;

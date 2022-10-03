@@ -1,0 +1,21 @@
+<%- include('templates/header')-%>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-8 mt-3">
+                <h1>Form Tambah Komentar</h1>
+
+                <form class="mt-4" action="/komentar/tambah/<%= idBerita %>" method="POST" enctype="multipart/form-data">
+                    <div class="form-group mb-3">
+                        <label for="text">Komentar</label>
+                        <input type="text" class="form-control" name="text" required id="text">
+                    </div>
+                    <input type="hidden" name="idBerita" value="<%= idBerita %>">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </div>
+        <hr />
+    </div>
+
+    <%- include('templates/footer')-%>
