@@ -35,14 +35,19 @@ router.post('/tambah', upload.single('image'), function (req, res, next) {
 
         Berita.create(berita)
             .then( () => {
-                // fs.writeFileSync("./public/images/tmp/", req.file.data);
-                  return res.send(`File has been uploaded.`);
+                  return res.redirect('/');
             });
 
     } catch (error) {
         console.log(error);
         return res.send(`Error when trying upload images: ${error}`);
     }
+});
+
+// Get Detail Sebuah Berita
+// GET
+router.get('/detail/:id', function (req, res, next) {
+    res.render('detailberita', { title: 'Detail Berita' });
 });
 
 module.exports = router;
