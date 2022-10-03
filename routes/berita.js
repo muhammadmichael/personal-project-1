@@ -19,7 +19,6 @@ router.get('/tambah', function (req, res, next) {
 
 // POST
 router.post('/tambah', upload.single('image'), function (req, res, next) {
-    console.log(req.file);
     try {
         console.log(req.file);    
         if (req.file == undefined) {
