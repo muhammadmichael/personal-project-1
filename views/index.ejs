@@ -6,13 +6,13 @@
 <div class="card-group">
   <%beritas.forEach(function(berita) {%>
   <div class="card">
-    <img class="card-img-top" src=".../100px180/" alt="Card image cap">
+    <img class="card-img-top" src="http://localhost:3000/images/uploadimages/<%=berita.image%>" alt="Card image cap">
     <div class="card-body">
-      <h5 class="card-title"><%= berita.title %></h5>
+      <h5><a href="/berita/detail/<%=berita.id%>" class="card-title"><%= berita.title %></a></h5>
       <p class="card-text"><%= berita.content %></p>
     </div>
     <div class="card-footer">
-      <small class="text-muted">Last updated 3 mins ago</small>
+      <small class="text-muted">Last updated <%= berita.updatedAt.toString().substring(0,24) %></small>
     </div>
   </div>
   <%});%>

@@ -5,3 +5,8 @@
 main > .container {
   padding: 60px 15px 0;
 }
+
+a {
+  text-decoration:none;
+  color: #000000;
+}

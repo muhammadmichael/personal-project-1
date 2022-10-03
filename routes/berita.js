@@ -17,20 +17,38 @@ router.get('/tambah', function (req, res, next) {
 
 // POST
 router.post('/tambah', function (req, res, next) {
-
+    if (req.files){
+        console.log("File was found");
+        return;
+    }else{
+        console.log("File was not found");
+        return;
+    }
+    var file = req.files.uploadedimage;
+    var img_name = file.name;
+    
     var berita = {
       title: req.body.title,
       content: req.body.content,
-      image: req.body.image
+      image: img_name
     }
-  
-    Berita.create(berita)
-      .then(
-        res.redirect('/')
-      )
-      .catch(err => {
-        res.redirect('/')
-      });
+
+    if(file.mimetype == "image/jpeg" ||file.mimetype == "image/png" ){            
+        file.mv('public/images/uploadimages/'+file.name, function(err) {               
+            if (err)
+              return res.status(500).send(err);
+                Berita.create(berita)
+                .then(
+                    res.redirect('/')
+                )
+                .catch(err => {
+                    res.redirect('/')
+                });
+                });
+    } else {
+      message = "This format is not allowed , please upload file with '.png','.jpg'";
+      res.render('index.ejs',{message: message});
+    }
   
   });
 
