@@ -3,8 +3,11 @@ module.exports = (sequelize, Sequelize) => {
         title: {
             type: Sequelize.STRING
         },
-        content: {
+        highlight: {
             type: Sequelize.STRING
+        },
+        content: {
+            type: Sequelize.TEXT
         },
         image: {
             type: Sequelize.STRING

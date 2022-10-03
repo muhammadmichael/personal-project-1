@@ -9,7 +9,7 @@
     <img class="card-img-top" src="/public/images/uploadedimages/<%=berita.image%>" alt="Card image cap">
     <div class="card-body">
       <h5><a href="/berita/detail/<%=berita.id%>" class="card-title"><%= berita.title %></a></h5>
-      <p class="card-text"><%= berita.content %></p>
+      <p class="card-text"><%= berita.content.toString().substring(0,24) %></p>
     </div>
     <div class="card-footer">
       <small class="text-muted">Last updated <%= berita.updatedAt.toString().substring(0,24) %></small>
