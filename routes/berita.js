@@ -98,4 +98,57 @@ router.get('/ubah/:id', function (req, res, next) {
     });
 });
 
+// POST
+router.post('/ubah/:id', upload.single('image'), function (req, res, next) {
+    var id = parseInt(req.params.id);
+
+    try { 
+        if (req.file == undefined) {
+          return res.send(`You must select a file.`);
+        }
+
+        const readFileFromPublic = req.file.filename.toString();
+        var berita = {
+            title: req.body.title,
+            content: req.body.content,
+            image: readFileFromPublic,
+        }
+
+        Berita.update(berita, {
+            where: { id: id }
+        })
+        .then( () => {
+                  return res.redirect('/');
+        });
+
+    } catch (error) {
+        console.log(error);
+        return res.send(`Error when trying upload images: ${error}`);
+    }
+  
+});
+
+// Delete (Soft Delete) Sebuah Berita
+// GET
+router.get('/hapus/:id', function (req, res, next) {
+    var id = parseInt(req.params.id);
+
+    try { 
+        var berita = {
+            isDelete: true,
+        }
+
+        Berita.update(berita, {
+            where: { id: id }
+        })
+        .then( () => {
+                  return res.redirect('/');
+        });
+
+    } catch (error) {
+        return res.send(`Error when trying to delete berita: ${error}`);
+    }
+  
+  });
+
 module.exports = router;

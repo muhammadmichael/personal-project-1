@@ -11,8 +11,9 @@ const Op = db.Sequelize.Op;
 router.get('/', function(req, res, next) {
 
   Berita.findAll({
+    where: { isDelete: false },
     limit: 3,
-    order: [ [ 'createdAt', 'DESC' ]]
+    order: [ [ 'updatedAt', 'DESC' ]]
   })
   .then(data => {
     res.render('index', {

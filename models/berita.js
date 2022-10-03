@@ -9,6 +9,10 @@ module.exports = (sequelize, Sequelize) => {
         image: {
             type: Sequelize.STRING
         },
+        isDelete: {
+            type: Sequelize.BOOLEAN,
+            defaultValue: false,
+        },
     });
 
     return Berita;
