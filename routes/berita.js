@@ -29,6 +29,7 @@ router.post('/tambah', upload.single('image'), function (req, res, next) {
         const readFileFromPublic = req.file.filename.toString();
         var berita = {
             title: req.body.title,
+            highlight: req.body.highlight,
             content: req.body.content,
             image: readFileFromPublic,
         }
@@ -110,6 +111,7 @@ router.post('/ubah/:id', upload.single('image'), function (req, res, next) {
         const readFileFromPublic = req.file.filename.toString();
         var berita = {
             title: req.body.title,
+            highlight: req.body.highlight,
             content: req.body.content,
             image: readFileFromPublic,
         }
