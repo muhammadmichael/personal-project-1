@@ -67,10 +67,9 @@
                   <div>
                     <h6 class="fw-bold mb-1">User</h6>
                     <div class="d-flex align-items-center mb-3">
-                      <p class="mb-0">
-                        <%= komentarChildren.createdAt.toString().substring(0, 24) %>
-                          <span class="badge bg-success">Approved</span>
-                      </p>
+                      <p class="mb-0"><small class="text-muted"><%= komentarChildren.createdAt.toString().substring(0, 24) %></small>
+                        <span class="badge bg-success">Approved</span>
+                    </p>
                     </div>
                     <p class="mb-0">
                       <%= komentarChildren.text %>
