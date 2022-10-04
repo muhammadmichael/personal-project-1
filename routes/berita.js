@@ -77,7 +77,6 @@ router.post('/tambah', auth, upload.single('image'), function (req, res, next) {
             image: readFileFromPublic,
         }
 
-        console.log(berita.title)
         Berita.create(berita)
             .then(() => {
                 return res.redirect('/');

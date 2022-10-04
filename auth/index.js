@@ -7,7 +7,7 @@ const auth = function(req, res, next){
         return next();
     }else{
         // belum login
-        return res.sendStatus(401);
+        return res.render('halamanunauthorized', { title: '401 Unauthorized' });
     }
 }
 
