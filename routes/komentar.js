@@ -12,37 +12,48 @@ const Op = db.Sequelize.Op;
 // Create (Post) Sebuah Komentar
 // GET
 router.get('/tambah/:id', function (req, res, next) {
-    var idBerita = parseInt(req.params.id);
-    res.render('formtambahkomentar', {
-        title: 'Tambah Komentar',
-        idBerita: idBerita,
+    var id = parseInt(req.params.id);
+
+    Berita.findByPk(id)
+    .then(data => {
+        if (data) {
+            res.render('formtambahkomentar', { 
+                title: 'Tambah Komentar',
+                berita: data
+         });
+        } else {
+        // kalau data tidak ada send 404
+        res.status(404).send({
+            message: "Tidak ada berita dengan id= " + id
+        })
+        }
+    })
+    .catch(err => {
+        res.json({
+        info: "Error",
+        message: err.message
+        });
     });
 });
 
 // POST
 router.post('/tambah/:id', function (req, res, next) {
-    var idBerita = parseInt(req.params.id);
-    console.log(idBerita);
-    console.log(req.body.title);
-    console.log(req.body.highlight);
-    console.log("bawah");
-    try {
+    var id = parseInt(req.params.id);
+
+    try { 
         var komentar = {
-            beritumId: idBerita
+            text: req.body.text,
+            beritumId: id
         }
 
         Komentar.create(komentar)
-        .then( (data) => {
-            console.log("masuk")
-                return res.redirect('/')
-                
+        .then( () => {
+                  return res.redirect('/berita/detail/'+ id);
         });
-
-        res.redirect('/');
 
     } catch (error) {
         console.log(error);
-        return res.send(`Error when adding comments: ${error}`);
+        return res.send(`Error when trying upload images: ${error}`);
     }
 });
 

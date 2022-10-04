@@ -20,7 +20,6 @@ router.get('/tambah', function (req, res, next) {
 // POST
 router.post('/tambah', upload.single('image'), function (req, res, next) {
     try {
-        console.log(req.file);    
         if (req.file == undefined) {
           return res.send(`You must select a file.`);
         }
@@ -33,6 +32,7 @@ router.post('/tambah', upload.single('image'), function (req, res, next) {
             image: readFileFromPublic,
         }
 
+        console.log(berita.title)
         Berita.create(berita)
             .then( () => {
                   return res.redirect('/');
@@ -151,5 +151,59 @@ router.get('/hapus/:id', function (req, res, next) {
     }
   
   });
+
+router.get('/komentar/tambah/:id', function (req, res, next) {
+    var id = parseInt(req.params.id);
+
+    Berita.findByPk(id)
+    .then(data => {
+        if (data) {
+            res.render('formtambahkomentar', { 
+                title: 'Tambah Komentar',
+                berita: data
+         });
+        } else {
+        // kalau data tidak ada send 404
+        res.status(404).send({
+            message: "Tidak ada berita dengan id= " + id
+        })
+        }
+    })
+    .catch(err => {
+        res.json({
+        info: "Error",
+        message: err.message
+        });
+    });
+});
+
+// POST
+router.post('/komentar/tambah/:id', function (req, res, next) {
+    var id = parseInt(req.params.id);
+
+    try { 
+
+        var komentar = {
+            title: req.body.title,
+            highlight: req.body.highlight,
+        }
+
+        console.log("masuk");
+        console.log(komentar.title)
+
+        // Komentar.create(komentar, {
+        //     where: { id: id }
+        // })
+        // .then( () => {
+        //           return res.redirect('/');
+        // });
+
+    } catch (error) {
+        console.log(error);
+        return res.send(`Error when trying upload images: ${error}`);
+    }
+});
+
+
 
 module.exports = router;
