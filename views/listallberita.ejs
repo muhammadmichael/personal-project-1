@@ -1,10 +1,29 @@
 <%- include('templates/header')-%>
 
-<div class="card" style="width: 18rem;">
-    <img src="..." class="card-img-top" alt="...">
-    <div class="card-body">
-      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+<h1>List Berita Selengkapnya</h1>
+<% for (let index in beritas) {%>
+    <div class="card-group">
+        <div class="card">
+            <a href="/berita/detail/<%=beritas[index].id%>">
+                <img class="card-img-top" src="/public/images/uploadedimages/<%=beritas[index].image%>" alt="Card image cap">
+            </a>
+            <div class="card-body">
+                <h5><a href="/berita/detail/<%=beritas[index].id%>" class="card-title"><%= beritas[index].title %></a></h5>
+                <p class="card-text"><%= beritas[index].highlight %></p>
+              </div>
+          </div>
     </div>
-  </div>
+    <br>
+
+
+<%} %>
+
+<nav aria-label="Page navigation example">
+    <ul class="pagination">
+      <li class="page-item"><a class="page-link" href="/berita/list/page/<%=previousHalaman%>">Previous</a></li>
+      <li class="page-item"><a class="page-link" href="/berita/list/page/<%=currentHalaman%>"><%=currentHalaman%></a></li>
+      <li class="page-item"><a class="page-link" href="/berita/list/page/<%=nextHalaman%>">Next</a></li>
+    </ul>
+</nav>
 
 <%- include('templates/footer')-%>

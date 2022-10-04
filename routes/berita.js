@@ -11,6 +11,51 @@ const Berita = db.beritas;
 const Komentar = db.komentars;
 const Op = db.Sequelize.Op;
 
+// Get All Berita
+// GET
+router.get('/list/page/:halaman', function (req, res, next) {
+
+    var halaman = req.params.halaman;
+    var slicedBerita = []
+    let previousHalaman = 0;
+    let nextHalaman = 0;
+
+    Berita.findAndCountAll({
+        where: { isDelete: false },
+        order: [ [ 'updatedAt', 'DESC' ]],
+        limit: 5,
+        offset: halaman * 5,
+      })
+      .then(data => {
+
+        if (halaman == 0){
+            previousHalaman = halaman;
+            nextHalaman = 1;
+        }else if (halaman == data.count){
+            previousHalaman = halaman - 1
+            nextHalaman = halaman
+        }
+
+        for (let index in data.rows){
+            slicedBerita.push(data.rows[index]);
+        }
+        res.render('listallberita', {
+          title: 'List Berita',
+          beritas: data.rows,
+          previousHalaman: previousHalaman,
+          currentHalaman: halaman,
+          nextHalaman: nextHalaman
+        });
+      })
+      .catch(err => {
+        res.json({
+          info: "Error",
+          message: err.message,
+          beritas: []
+        });
+      });
+});
+
 // Create (Post) Sebuah Berita
 // GET
 router.get('/tambah', auth, function (req, res, next) {
@@ -99,7 +144,7 @@ router.get('/detail/:id', function (req, res, next) {
 
 // Update (Edit) Sebuah Berita
 // GET
-router.get('/ubah/:id', function (req, res, next) {
+router.get('/ubah/:id', auth, function (req, res, next) {
     var id = parseInt(req.params.id);
 
     Berita.findByPk(id)
@@ -125,7 +170,7 @@ router.get('/ubah/:id', function (req, res, next) {
 });
 
 // POST
-router.post('/ubah/:id', upload.single('image'), function (req, res, next) {
+router.post('/ubah/:id', auth, upload.single('image'), function (req, res, next) {
     var id = parseInt(req.params.id);
 
     try {
