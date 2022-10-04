@@ -50,34 +50,44 @@ router.get('/detail/:id', function (req, res, next) {
     var id = parseInt(req.params.id);
 
     var tempKomentar = []
+    var tempKomentarChildren = []
     Komentar.findAll({
         where: { beritumId: id },
         order: [ [ 'createdAt', 'DESC' ]]
       })
       .then(komen => {
         tempKomentar = komen;
-        Berita.findByPk(id)
-        .then(berita => {
-            if (berita) {
-            res.render('detailberita', {
-                title: 'Detail Berita',
-                berita: berita,
-                komentar: tempKomentar,
-            });
-            } else {
-            // kalau data tidak ada send 404
-            res.status(404).send({
-                message: "Tidak ada berita dengan id= " + id
-            })
-            }
-        })
-        .catch(err => {
-            res.json({
-            info: "Error",
-            message: err.message
-            });
-        });
-      })
+        var idKomentar = komen[0].id // mengambil id parent
+        Komentar.findAll({
+            where: { komentarId: idKomentar},
+            }).then( (children) => {
+                tempKomentarChildren = children
+
+                Berita.findByPk(id)
+                .then(berita => {
+                    if (berita) {
+                    res.render('detailberita', {
+                        title: 'Detail Berita',
+                        berita: berita,
+                        komentar: tempKomentar,
+                        komentarChildren : tempKomentarChildren,
+                    });
+                    } else {
+                    // kalau data tidak ada send 404
+                    res.status(404).send({
+                        message: "Tidak ada berita dengan id= " + id
+                    })
+                    }
+                })
+                .catch(err => {
+                    res.json({
+                    info: "Error",
+                    message: err.message
+                    });
+                });
+          })
+          })
+        
       .catch(err => {
         res.json({
           info: "Error",

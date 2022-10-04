@@ -22,20 +22,20 @@ db.beritas = require('./berita')(sequelize, Sequelize);
 db.komentars = require('./komentar')(sequelize, Sequelize);
 db.users = require('./user')(sequelize, Sequelize);
 
-// Associations One-To-Many
-// db.beritas.hasMany(db.komentars);
-// db.komentars.belongsTo(db.beritas);
-
-// db.beritas.hasMany(db.komentars, { as: "komentars" });
-// db.komentars.belongsTo(db.beritas, {
-//   foreignKey: {allowNull: false},
-//   as: "berita",
-// });
-
+// Associations 
+// One-To-Many Between Berita and Komentar
 db.beritas.hasMany(db.komentars, {
     foreignKey: 'beritumId',
     allowNull: false
   });
 db.komentars.belongsTo(db.beritas);
+
+// One-To-Many Between Komentar and Komentar
+db.komentars.belongsTo(db.komentars);
+db.komentars.hasMany(db.komentars, {
+  as: "Children", 
+  foreignKey: "komentarId", 
+  useJunctionTable: false
+});
 
 module.exports = db;
