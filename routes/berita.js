@@ -57,7 +57,6 @@ router.get('/detail/:id', function (req, res, next) {
     })
         .then(komen => {
             tempKomentar = komen;
-            var idKomentar = komen[0].id // mengambil id parent
             Komentar.findAll()
                 .then((children) => {
                     tempKomentarChildren = children
