@@ -13,12 +13,12 @@ const Op = db.Sequelize.Op;
 
 // Create (Post) Sebuah Berita
 // GET
-router.get('/tambah', function (req, res, next) {
+router.get('/tambah', auth, function (req, res, next) {
     res.render('formtambahberita', { title: 'Tambah Berita' });
 });
 
 // POST
-router.post('/tambah', upload.single('image'), function (req, res, next) {
+router.post('/tambah', auth, upload.single('image'), function (req, res, next) {
     try {
         if (req.file == undefined) {
             return res.send(`You must select a file.`);
@@ -157,7 +157,7 @@ router.post('/ubah/:id', upload.single('image'), function (req, res, next) {
 
 // Delete (Soft Delete) Sebuah Berita
 // GET
-router.get('/hapus/:id', function (req, res, next) {
+router.get('/hapus/:id', auth, function (req, res, next) {
     var id = parseInt(req.params.id);
 
     try {

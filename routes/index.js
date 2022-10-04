@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var bcrypt = require('bcryptjs');
 
+const auth = require('../auth')
 const db = require('../models');
 const Berita = db.beritas;
 const Komentar = db.komentars;
@@ -73,13 +74,14 @@ router.post('/login', function (req, res, next) {
         var loginValid = bcrypt.compareSync(req.body.password, data.password);
         if (loginValid) {
 
-          // Simpan session
+          // simpan session
           req.session.username = req.body.username;
           req.session.islogin = true;
 
+          console.log(req.session.islogin);
+
           res.redirect('/');
         } else {
-          // Gagal Login
           res.redirect('/login')
         }
       } else {

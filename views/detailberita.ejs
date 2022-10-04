@@ -1,110 +1,101 @@
 <%- include('templates/header')-%>
-    <h1>
-        <%= berita.title %>
-    </h1>
-    <p class="text-muted">BeritaUmum.com - <%= berita.createdAt %>
-    </p>
-    <div class="card mb-3">
-        <img class="card-img-top" src="/public/images/uploadedimages/<%=berita.image%>" alt="Card image cap">
-        <div class="card-body">
-            <h5 class="card-title">
-                <%= berita.highlight %>
-            </h5>
-            <p class="card-text">
-                <%= berita.content %>
-            </p>
-            <p class="card-text"><small class="text-muted">Last updated <%= berita.updatedAt.toString().substring(0,24)
-                        %></small></p>
-            <div>
-                <a href="/" class="btn btn-primary">Back</a>
-                &nbsp;
-                <a href="/berita/ubah/<%= berita.id %>" class="btn btn-outline-primary">Ubah</a>
-                &nbsp;
-                <a href="/berita/hapus/<%= berita.id %>" class="btn btn-danger">Hapus</a>
-            </div>
-        </div>
-
+  <h1>
+    <%= berita.title %>
+  </h1>
+  <p class="text-muted">BeritaUmum.com - <%= berita.createdAt %>
+  </p>
+  <div class="card mb-3">
+    <img class="card-img-top" src="/public/images/uploadedimages/<%=berita.image%>" alt="Card image cap">
+    <div class="card-body">
+      <h5 class="card-title">
+        <%= berita.highlight %>
+      </h5>
+      <p style="white-space: pre-wrap; padding-left: 0;" class="card-text"><%= berita.content %></p>
+      <p class="card-text"><small class="text-muted">Last updated <%= berita.updatedAt.toString().substring(0,24) %>
+        </small></p>
+      <div>
+        <a href="/" class="btn btn-primary">Back</a>
+        &nbsp;
+        <a href="/berita/ubah/<%= berita.id %>" class="btn btn-outline-primary">Ubah</a>
+        &nbsp;
+        <a href="/berita/hapus/<%= berita.id %>" class="btn btn-danger">Hapus</a>
+      </div>
     </div>
+  </div>
+  <br>
 
+  <!-- Source: https://mdbootstrap.com/docs/standard/extended/comments/ -->
+  <div class="card text-dark mt-5">
 
+    <div class="card-body p-4">
+      <h4 class="mb-3">Tambah Komentar</h4>
+      <a href="/komentar/tambah/<%= berita.id %>" class="btn btn-primary mb-5">Tambah</a>
+      <h4 class="mb-0">Komentar Terakhir</h4>
+      <p class="fw-light mb-4 pb-2">Komentar terakhir oleh pengguna</p>
+      <hr class="my-0" style="height: 1px;" />
 
-    <br>
-
-    <!-- Source: https://mdbootstrap.com/docs/standard/extended/comments/ -->
-    <div class="card text-dark mt-5">
-
+      <%komentar.forEach(function(komentar) {%>
         <div class="card-body p-4">
-            <h4 class="mb-3">Tambah Komentar</h4>
-            <a href="/komentar/tambah/<%= berita.id %>" class="btn btn-primary mb-5">Tambah</a>
-            <h4 class="mb-0">Komentar Terakhir</h4>
-            <p class="fw-light mb-4 pb-2">Komentar terakhir oleh pengguna</p>
-            <hr class="my-0" style="height: 1px;" />
+          <div class="d-flex flex-start">
+            <img class="rounded-circle shadow-1-strong me-3"
+              src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"
+              alt="avatar" width="60" height="60" />
+            <div>
+              <h6 class="fw-bold mb-1">User</h6>
+              <div class="d-flex align-items-center mb-3">
+                <p class="mb-0">
+                  <%= komentar.createdAt.toString().substring(0, 24) %>
+                    <span class="badge bg-success">Approved</span>
+                </p>
+              </div>
+              <p class="mb-0">
+                <%= komentar.text %>
+              </p>
+              <br>
+              <a method="POST" href="/komentar/reply/<%=komentar.id%>" class="card-title">Reply</a>
+            </div>
 
-            
-            <%komentar.forEach(function(komentar) {%>
-            <div class="card-body p-4">
+          </div>
+
+          <%komentarChildren.forEach(function(komentarChildren) {%>
+
+            <% if(komentarChildren.komentarId===komentar.id){ %>
+              <div class="card-body p-4">
                 <div class="d-flex flex-start">
                   <img class="rounded-circle shadow-1-strong me-3"
                     src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"
-                    alt="avatar" width="60"
-                    height="60" />
+                    alt="avatar" width="60" height="60" />
                   <div>
                     <h6 class="fw-bold mb-1">User</h6>
                     <div class="d-flex align-items-center mb-3">
                       <p class="mb-0">
-                        <%= komentar.createdAt.toString().substring(0, 24) %>
-                        <span class="badge bg-success">Approved</span>
+                        <%= komentarChildren.createdAt.toString().substring(0, 24) %>
+                          <span class="badge bg-success">Approved</span>
                       </p>
                     </div>
                     <p class="mb-0">
-                        <%= komentar.text %>
+                      <%= komentarChildren.text %>
                     </p>
                     <br>
-                    <a method= "POST" href="/komentar/reply/<%=komentar.id%>" class="card-title">Reply</a>
+                    <a method="POST" href="/komentar/reply/<%=komentarChildren.id%>" class="card-title">Reply</a>
                   </div>
-                  
+
                 </div>
-                
-                <%komentarChildren.forEach(function(komentarChildren) {%>
-
-                    <% if(komentarChildren.komentarId === komentar.id){ %>
-                        <div class="card-body p-4">
-                            <div class="d-flex flex-start">
-                              <img class="rounded-circle shadow-1-strong me-3"
-                                src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"
-                                alt="avatar" width="60"
-                                height="60" />
-                              <div>
-                                <h6 class="fw-bold mb-1">User</h6>
-                                <div class="d-flex align-items-center mb-3">
-                                  <p class="mb-0">
-                                    <%= komentarChildren.createdAt.toString().substring(0, 24) %>
-                                    <span class="badge bg-success">Approved</span>
-                                  </p>
-                                </div>
-                                <p class="mb-0">
-                                    <%= komentarChildren.text %>
-                                </p>
-                                <br>
-                                <a method= "POST" href="/komentar/reply/<%=komentarChildren.id%>" class="card-title">Reply</a>
-                              </div>
-                              
-                            </div>
-                        </div>
-                    <% } else { %>
-                        <!-- Tidak ada reply -->
-                    <% } %>
-
-                <%});%>
               </div>
-    
-              <hr class="my-0" style="height: 1px;" />
-              <%});%>
+              <% } else { %>
+                <!-- Tidak ada reply -->
+                <% } %>
 
+                  <%});%>
         </div>
 
-        <hr class="my-0" />
+        <hr class="my-0" style="height: 1px;" />
+        <%});%>
 
     </div>
 
-    <%- include('templates/footer')-%>
+    <hr class="my-0" />
+
+  </div>
+
+  <%- include('templates/footer')-%>

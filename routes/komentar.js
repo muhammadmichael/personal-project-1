@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 // var bcrypt = require('bcryptjs');
 
-// const auth = require('../auth');
+const auth = require('../auth')
 const db = require('../models');
 const User = db.users;
 const Berita = db.beritas;
