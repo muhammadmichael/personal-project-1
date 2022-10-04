@@ -21,7 +21,7 @@ router.get('/tambah', function (req, res, next) {
 router.post('/tambah', upload.single('image'), function (req, res, next) {
     try {
         if (req.file == undefined) {
-          return res.send(`You must select a file.`);
+            return res.send(`You must select a file.`);
         }
 
         const readFileFromPublic = req.file.filename.toString();
@@ -34,8 +34,8 @@ router.post('/tambah', upload.single('image'), function (req, res, next) {
 
         console.log(berita.title)
         Berita.create(berita)
-            .then( () => {
-                  return res.redirect('/');
+            .then(() => {
+                return res.redirect('/');
             });
 
     } catch (error) {
@@ -53,50 +53,49 @@ router.get('/detail/:id', function (req, res, next) {
     var tempKomentarChildren = []
     Komentar.findAll({
         where: { beritumId: id },
-        order: [ [ 'createdAt', 'DESC' ]]
-      })
-      .then(komen => {
-        tempKomentar = komen;
-        var idKomentar = komen[0].id // mengambil id parent
-        Komentar.findAll({
-            where: { komentarId: idKomentar},
-            }).then( (children) => {
-                tempKomentarChildren = children
+        order: [['createdAt', 'DESC']]
+    })
+        .then(komen => {
+            tempKomentar = komen;
+            var idKomentar = komen[0].id // mengambil id parent
+            Komentar.findAll()
+                .then((children) => {
+                    tempKomentarChildren = children
 
-                Berita.findByPk(id)
-                .then(berita => {
-                    if (berita) {
-                    res.render('detailberita', {
-                        title: 'Detail Berita',
-                        berita: berita,
-                        komentar: tempKomentar,
-                        komentarChildren : tempKomentarChildren,
-                    });
-                    } else {
-                    // kalau data tidak ada send 404
-                    res.status(404).send({
-                        message: "Tidak ada berita dengan id= " + id
-                    })
-                    }
+                    Berita.findByPk(id)
+                        .then(berita => {
+                            if (berita) {
+                                res.render('detailberita', {
+                                    title: 'Detail Berita',
+                                    berita: berita,
+                                    komentar: tempKomentar,
+                                    komentarChildren: tempKomentarChildren,
+                                });
+                            } else {
+                                // kalau data tidak ada send 404
+                                res.status(404).send({
+                                    message: "Tidak ada berita dengan id= " + id
+                                })
+                            }
+                        })
+                        .catch(err => {
+                            res.json({
+                                info: "Error",
+                                message: err.message
+                            });
+                        });
                 })
-                .catch(err => {
-                    res.json({
-                    info: "Error",
-                    message: err.message
-                    });
-                });
-          })
-          })
-        
-      .catch(err => {
-        res.json({
-          info: "Error",
-          message: err.message,
-          tempKomentar: tempKomentar,
-        });
-      });
+        })
 
-    
+        .catch(err => {
+            res.json({
+                info: "Error",
+                message: err.message,
+                tempKomentar: tempKomentar,
+            });
+        });
+
+
 });
 
 // Update (Edit) Sebuah Berita
@@ -105,34 +104,34 @@ router.get('/ubah/:id', function (req, res, next) {
     var id = parseInt(req.params.id);
 
     Berita.findByPk(id)
-    .then(data => {
-        if (data) {
-            res.render('formubahberita', { 
-                title: 'Ubah Berita',
-                berita: data
-         });
-        } else {
-        // kalau data tidak ada send 404
-        res.status(404).send({
-            message: "Tidak ada berita dengan id= " + id
+        .then(data => {
+            if (data) {
+                res.render('formubahberita', {
+                    title: 'Ubah Berita',
+                    berita: data
+                });
+            } else {
+                // kalau data tidak ada send 404
+                res.status(404).send({
+                    message: "Tidak ada berita dengan id= " + id
+                })
+            }
         })
-        }
-    })
-    .catch(err => {
-        res.json({
-        info: "Error",
-        message: err.message
+        .catch(err => {
+            res.json({
+                info: "Error",
+                message: err.message
+            });
         });
-    });
 });
 
 // POST
 router.post('/ubah/:id', upload.single('image'), function (req, res, next) {
     var id = parseInt(req.params.id);
 
-    try { 
+    try {
         if (req.file == undefined) {
-          return res.send(`You must select a file.`);
+            return res.send(`You must select a file.`);
         }
 
         const readFileFromPublic = req.file.filename.toString();
@@ -146,15 +145,15 @@ router.post('/ubah/:id', upload.single('image'), function (req, res, next) {
         Berita.update(berita, {
             where: { id: id }
         })
-        .then( () => {
-                  return res.redirect('/');
-        });
+            .then(() => {
+                return res.redirect('/');
+            });
 
     } catch (error) {
         console.log(error);
         return res.send(`Error when trying upload images: ${error}`);
     }
-  
+
 });
 
 // Delete (Soft Delete) Sebuah Berita
@@ -162,7 +161,7 @@ router.post('/ubah/:id', upload.single('image'), function (req, res, next) {
 router.get('/hapus/:id', function (req, res, next) {
     var id = parseInt(req.params.id);
 
-    try { 
+    try {
         var berita = {
             isDelete: true,
         }
@@ -170,14 +169,14 @@ router.get('/hapus/:id', function (req, res, next) {
         Berita.update(berita, {
             where: { id: id }
         })
-        .then( () => {
-                  return res.redirect('/');
-        });
+            .then(() => {
+                return res.redirect('/');
+            });
 
     } catch (error) {
         return res.send(`Error when trying to delete berita: ${error}`);
     }
-  
-  });
+
+});
 
 module.exports = router;
