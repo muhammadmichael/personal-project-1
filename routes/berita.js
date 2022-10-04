@@ -1,9 +1,9 @@
 var express = require('express');
 var router = express.Router();
 const fs = require("fs");
-// var bcrypt = require('bcryptjs');
+var bcrypt = require('bcryptjs');
 
-// const auth = require('../auth');
+const auth = require('../auth');
 const upload = require("../middleware/upload");
 const db = require('../models');
 const User = db.users;
