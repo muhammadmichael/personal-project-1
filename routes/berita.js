@@ -54,8 +54,29 @@ router.get('/detail/:id', function (req, res, next) {
         where: { beritumId: id },
         order: [ [ 'createdAt', 'DESC' ]]
       })
-      .then(data => {
-        tempKomentar = data;
+      .then(komen => {
+        tempKomentar = komen;
+        Berita.findByPk(id)
+        .then(berita => {
+            if (berita) {
+            res.render('detailberita', {
+                title: 'Detail Berita',
+                berita: berita,
+                komentar: tempKomentar,
+            });
+            } else {
+            // kalau data tidak ada send 404
+            res.status(404).send({
+                message: "Tidak ada berita dengan id= " + id
+            })
+            }
+        })
+        .catch(err => {
+            res.json({
+            info: "Error",
+            message: err.message
+            });
+        });
       })
       .catch(err => {
         res.json({
@@ -65,27 +86,7 @@ router.get('/detail/:id', function (req, res, next) {
         });
       });
 
-    Berita.findByPk(id)
-    .then(data => {
-        if (data) {
-        res.render('detailberita', {
-            title: 'Detail Berita',
-            berita: data,
-            komentar: tempKomentar,
-        });
-        } else {
-        // kalau data tidak ada send 404
-        res.status(404).send({
-            message: "Tidak ada berita dengan id= " + id
-        })
-        }
-    })
-    .catch(err => {
-        res.json({
-        info: "Error",
-        message: err.message
-        });
-    });
+    
 });
 
 // Update (Edit) Sebuah Berita
