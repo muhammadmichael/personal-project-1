@@ -2,10 +2,10 @@
 Bootcamp Nodejs Personal Project
 
 
-Menggunakan private key & certificate yang digenerate openssl
-Halaman home: https://localhost:3000/
-Dapat diakses tanpa atau dengan login.
-Halaman home berisi tiga berita terupdate. Gambar dan judul dapat diklik untuk menampilkan detail berita.
+Menggunakan private key & certificate yang digenerate openssl <br />
+Halaman home: https://localhost:3000/ <br />
+Dapat diakses tanpa atau dengan login. <br />
+Halaman home berisi tiga berita terupdate. Gambar dan judul dapat diklik untuk menampilkan detail berita. <br />
 List Berita Selengkapnya >> dapat diklik untuk menampilkan halaman list berita.
 
 Halaman list berita : https://localhost:3000/berita/list/page/:halaman
