@@ -1,12 +1,10 @@
 var express = require('express');
 var router = express.Router();
-const fs = require("fs");
-var bcrypt = require('bcryptjs');
+const flash = require('connect-flash');
 
 const auth = require('../auth');
 const upload = require("../middleware/upload");
 const db = require('../models');
-const User = db.users;
 const Berita = db.beritas;
 const Komentar = db.komentars;
 const Op = db.Sequelize.Op;
@@ -22,51 +20,57 @@ router.get('/list/page/:halaman', function (req, res, next) {
 
     Berita.findAndCountAll({
         where: { isDelete: false },
-        order: [ [ 'updatedAt', 'DESC' ]],
+        order: [['updatedAt', 'DESC']],
         limit: 5,
         offset: halaman * 5,
-      })
-      .then(data => {
+    })
+        .then(data => {
 
-        if (halaman == 0){
-            previousHalaman = halaman;
-            nextHalaman = 1;
-        }else if (halaman == data.count){
-            previousHalaman = halaman - 1
-            nextHalaman = halaman
-        }
+            if (halaman == 0) {
+                previousHalaman = halaman;
+                nextHalaman = 1;
+            } else if (halaman == data.count) {
+                previousHalaman = halaman - 1
+                nextHalaman = halaman
+            }
 
-        for (let index in data.rows){
-            slicedBerita.push(data.rows[index]);
-        }
-        res.render('listallberita', {
-          title: 'List Berita',
-          beritas: data.rows,
-          previousHalaman: previousHalaman,
-          currentHalaman: halaman,
-          nextHalaman: nextHalaman
+            for (let index in data.rows) {
+                slicedBerita.push(data.rows[index]);
+            }
+            res.render('listallberita', {
+                title: 'List Berita',
+                beritas: data.rows,
+                previousHalaman: previousHalaman,
+                currentHalaman: halaman,
+                nextHalaman: nextHalaman
+            });
+        })
+        .catch(err => {
+            res.json({
+                info: "Error",
+                message: err.message,
+                beritas: []
+            });
         });
-      })
-      .catch(err => {
-        res.json({
-          info: "Error",
-          message: err.message,
-          beritas: []
-        });
-      });
 });
 
 // Create (Post) Sebuah Berita
 // GET
 router.get('/tambah', auth, function (req, res, next) {
-    res.render('formtambahberita', { title: 'Tambah Berita' });
+    res.render('formtambahberita', {
+        title: 'Tambah Berita',
+        msg: ""
+    });
 });
 
 // POST
 router.post('/tambah', auth, upload.single('image'), function (req, res, next) {
     try {
         if (req.file == undefined) {
-            return res.send(`You must select a file.`);
+            return res.render('formtambahberita', {
+                title: 'Tambah Berita',
+                msg: "Tolong Upload Sebuah File Image"
+            });
         }
 
         const readFileFromPublic = req.file.path;
@@ -151,7 +155,8 @@ router.get('/ubah/:id', auth, function (req, res, next) {
             if (data) {
                 res.render('formubahberita', {
                     title: 'Ubah Berita',
-                    berita: data
+                    berita: data,
+                    msg: ""
                 });
             } else {
                 // kalau data tidak ada send 404

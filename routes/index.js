@@ -78,8 +78,6 @@ router.post('/login', function (req, res, next) {
           req.session.username = req.body.username;
           req.session.islogin = true;
 
-          console.log(req.session.islogin);
-
           res.redirect('/');
         } else {
           res.redirect('/login')
