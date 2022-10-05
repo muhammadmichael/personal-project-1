@@ -69,7 +69,7 @@ router.post('/tambah', auth, upload.single('image'), function (req, res, next) {
             return res.send(`You must select a file.`);
         }
 
-        const readFileFromPublic = req.file.filename.toString();
+        const readFileFromPublic = req.file.path;
         var berita = {
             title: req.body.title,
             highlight: req.body.highlight,
@@ -177,7 +177,7 @@ router.post('/ubah/:id', auth, upload.single('image'), function (req, res, next)
             return res.send(`You must select a file.`);
         }
 
-        const readFileFromPublic = req.file.filename.toString();
+        const readFileFromPublic = req.file.path;
         var berita = {
             title: req.body.title,
             highlight: req.body.highlight,
