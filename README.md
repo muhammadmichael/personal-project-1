@@ -12,6 +12,11 @@ Halaman list berita : https://localhost:3000/berita/list/page/:halaman
 Dapat diakses tanpa atau dengan login.
 Halaman list berita menggunakan pagination. Setiap page menampilkan lima berita mulai dari yang terupdate dan atribut isDelete False.
 
+Halaman tambah berita: https://localhost:3000/berita/tambah
+Dapat diakses hanya jika login.
+Halaman ini dapat membuat sebuah berita. Pengguna dapat menambahkan berita dengan mengisikan atribut judul, highlight, isi berita, serta gambar untuk diupload.
+Pada database SQL Server, hanya path gambar yang disimpan. File image akan tersimpan ke dalam folder public/images/uploadimages di dalam repository project ini.
+
 Halaman detail berita: https://localhost:3000/berita/detail/:id
 Dapat diakses tanpa atau dengan login.
 Halaman ini menampilkan detail sebuah berita.
