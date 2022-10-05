@@ -7,6 +7,15 @@
 var app = require('../app');
 var debug = require('debug')('personal-project-1:server');
 var http = require('http');
+var https = require('https');
+
+
+const fs = require('fs');
+
+const options = {
+  key: fs.readFileSync('C:/Users/Profesor/Desktop/personal-project-1/certs/key.pem'),
+  cert: fs.readFileSync('C:/Users/Profesor/Desktop/personal-project-1/certs/cert.pem')
+};
 
 /**
  * Get port from environment and store in Express.
@@ -19,7 +28,7 @@ app.set('port', port);
  * Create HTTP server.
  */
 
-var server = http.createServer(app);
+var server = https.createServer(options, app);
 
 /**
  * Listen on provided port, on all network interfaces.

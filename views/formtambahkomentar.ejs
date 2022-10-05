@@ -1,0 +1,15 @@
+<%- include('templates/header')-%>
+
+<div class="container">
+    <h1>Form Tambah Komentar</h1>
+    <br>
+    <form method="POST" action="/komentar/tambah/<%= berita.id %>">
+        <div class="mb-3">
+            <label for="text" class="form-label">Komentar</label>
+            <input type="text" class="form-control" name ="text" required id="text">
+        </div>
+        <button type="submit" class="btn btn-primary">Tambah Komentar</button>
+    </form>       
+</div>
+
+<%- include('templates/footer')-%>

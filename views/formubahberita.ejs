@@ -1,0 +1,32 @@
+<%- include('templates/header')-%>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-8 mt-3">
+                <h1>Form Ubah Berita</h1>
+
+                <form class="mt-4" action="/berita/ubah/<%= berita.id %>" method="POST" enctype="multipart/form-data">
+                    <div class="form-group mb-3">
+                        <label for="title">Judul</label>
+                        <input type="text" class="form-control" value="<%= berita.title %>" name="title" required id="title">
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="title">Highlight</label>
+                        <input type="text" class="form-control" value="<%= berita.highlight%>" name="highlight" required id="highlight">
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="content">Isi Berita</label>
+                        <textarea class="form-control" name="content" id="content" rows="8"><%= berita.content %></textarea>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <input type="file" name="image" id="input-files" class="form-control-file border" />
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </div>
+        <hr />
+    </div>
+
+    <%- include('templates/footer')-%>
